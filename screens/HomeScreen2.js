@@ -22,7 +22,7 @@ import {
   Feather,
   Ionicons,
 } from "@expo/vector-icons";
-const HomeScreen = () => {
+const HomeScreen2 = () => {
 
   const images = [
     { url: 'https://img.freepik.com/free-vector/flat-design-food-sale-banner_23-2149108165.jpg' },
@@ -31,45 +31,95 @@ const HomeScreen = () => {
     { url: 'https://img.freepik.com/free-vector/flat-design-food-sale-banner-with-special-offer_23-2149113276.jpg?t=st=1723054047~exp=1723057647~hmac=2c4c2cb0d56fcd1be89438410ad0a9f114878825e1ba5affe2cb4843e88739cc&w=1060' },
   ];
 
+  const [data, setData] = useState(null);
+  const [page, setPage] = useState(1);
+
+  const loadMoreData = () => {
+    fetchImageList()
+
+  }
+
+  const fetchFruits = async () => {
+    try {
+      const response = await fetch(`https://pixabay.com/api/?key=45336467-bce332e8e7714c1d3ae1dd802&image_type=photo&per_page=20&page=1`);
+      const data = await response.json();
+      setData(data.hits);
+      console.log(data.hits.length, data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const fetchImageList = async () => {
+    try {
+      const response = await fetch(`https://pixabay.com/api/?key=45336467-bce332e8e7714c1d3ae1dd802&image_type=photo&per_page=200&page=${page}`);
+      const data = await response.json();
+
+      if (data.hits.length === 0) {
+        setHasMore(false);
+      } else {
+        if (page > 1) {
+          setData(prevData => [...prevData, ...data.hits]);
+        }
+        setPage(page + 1);
+
+      }
+
+      console.log(data.hits.length, data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    fetchFruits();
+  }, []);
+
+  const renderImage = ({ item }) => (
+    <View style={styles.item}>
+
+      <View style={styles.cardContainer}>
+        <Image
+          style={styles.image}
+          source={{ uri: item.webformatURL }}
+        />
+        <View style={{ position: "absolute", top: 10, right: 5, backgroundColor: "rgba(42, 147, 74, 0.9)", padding: 5, borderRadius: 10 }}>
+          <Text style={styles.views}>{item?.views} Views</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <View style={styles.actions}>
+            <View style={{ flexDirection: "row" }}>
+              <Feather name="heart" size={20} color="#FC7D86" />
+              <Text style={styles.likes}>{item?.likes} Likes</Text>
+            </View>
+            <TouchableOpacity>
+              <FontAwesome name="mail-forward" size={20} color="#000" />
+
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+    </View>
+  );
+
+
   return (
     <SafeAreaView style={styles.container}>
-
       <FlashList
-        data={restaurantData}
-        renderItem={({ item }) => (
-          <RestaurantCard
-            image={item.image}
-            restaurant={item.restaurant}
-            duration={item.duration}
-            distance={item.distance}
-            bill={item.bill}
-            rating={item.rating}
-            discount={item.discount}
-            isVeg={item.isVeg}
-            totalOrder={item.totalOrder}
-            cuisines={item.cuisines}
-          />
-        )}
-        estimatedItemSize={100}
+        data={data}
+        renderItem={renderImage}
+        keyExtractor={item => item.id.toString()}
+        onEndReached={loadMoreData}
+        estimatedItemSize={320}
+        onEndReachedThreshold={0.5}
+        horizontal={false}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <>
-            <Banner
-              image={{ uri: "https://northeastlive.s3.amazonaws.com/media/uploads/2023/09/zomata.png" }} />
-            <DishesListContainer />
-            <BannerSlider images={images} />
-            <FeaturedRestaurantsContainer />
-            <Text style={styles.restaurantCardHeading}>
-              Restaurants around you
-            </Text>
-          </>
-        }
       />
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default HomeScreen2;
 
 const styles = StyleSheet.create({
   container: {
@@ -105,13 +155,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     elevation: 1,
   },
-
   infoContainer: {
     padding: 10,
   },
   views: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 12,
+    color: '#fff',
   },
   actions: {
     flexDirection: 'row',
