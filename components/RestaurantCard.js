@@ -27,15 +27,6 @@ const RestaurantCard = (props) => {
   return (
     <Pressable
       style={styles.container}
-      onPress={() =>
-        navigation.navigate("Restaurant", {
-          restaurant,
-          cuisines,
-          duration,
-          distance,
-          rating,
-        })
-      }
     >
       <Image
         source={{
@@ -43,7 +34,6 @@ const RestaurantCard = (props) => {
         }}
         style={styles.image}
       />
-      {/* isVeg */}
       {isVeg && (
         <View style={styles.vegContainer}>
           <MaterialCommunityIcons name="leaf" size={13} color="#fff" />
@@ -51,40 +41,32 @@ const RestaurantCard = (props) => {
         </View>
       )}
 
-      {/* like */}
       <View style={styles.likeContainer}>
         <Feather name="heart" size={20} color="#FC7D86" />
       </View>
 
-      {/* distance and duration */}
-
       <View style={styles.timerContainer}>
-        <Image
-          source={require("../assets/images/time.png")}
-          style={styles.timerImage}
-        />
+
         <Text style={styles.duration}>{duration} min</Text>
         <Text style={{ fontSize: 10, paddingHorizontal: 3 }}>|</Text>
         <Text style={styles.distance}>{distance} km</Text>
       </View>
 
-      {/* discount */}
-      <View style={styles.discountContainer}>
-        <MaterialCommunityIcons
-          name="brightness-percent"
-          size={12}
-          color="#fff"
-        />
-        <Text style={styles.discount}>{discount}% off</Text>
-      </View>
+      {discount && (
+        <View style={styles.discountContainer}>
+          <MaterialCommunityIcons
+            name="brightness-percent"
+            size={12}
+            color="#fff"
+          />
+          <Text style={styles.discount}>{discount}% off</Text>
+        </View>
+      )}
 
       <View style={styles.restaurantInfo}>
         <View style={styles.restaurantDetails}>
-          {/* restaurant name */}
           <Text style={styles.restaurantName}>{restaurant}</Text>
-          {/* rating */}
           <View style={styles.ratingContainer}>
-            {/* rating */}
             <Text style={styles.rating}>{rating}</Text>
             <FontAwesome name="star" size={10} color="#fff" />
           </View>
@@ -95,23 +77,12 @@ const RestaurantCard = (props) => {
               return `${item}, `;
             })}
           </Text>
-          <Text style={styles.bill}>₹{bill} for one</Text>
+          <Text style={styles.bill}>₹{bill}<Text style={{ fontSize: 12 }}> for one</Text></Text>
         </View>
 
-        {/* hr */}
         <View
           style={{ height: 0.1, backgroundColor: "gray", marginVertical: 10 }}
         />
-
-        {/* total number of order placed so far */}
-        <View style={styles.totalOrder}>
-          <View style={styles.trendingIconContainer}>
-            <Ionicons name="trending-up" size={9} color="#fff" />
-          </View>
-          <Text style={styles.orderPlaced}>
-            {totalOrder}+ order placed from here recently
-          </Text>
-        </View>
       </View>
     </Pressable>
   );
@@ -256,9 +227,9 @@ const styles = StyleSheet.create({
     color: "#484848",
   },
   bill: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: "500",
-    color: "#484848",
+    color: "#000",
   },
   totalOrder: {
     flexDirection: "row",

@@ -1,5 +1,4 @@
 import {
-  FlatList,
   Platform,
   SafeAreaView,
   StyleSheet,
@@ -7,22 +6,27 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import Category from "../components/Category";
-import { categories, restaurantData } from "../assets/data/data";
-import SearchBar from "../components/SearchBar";
+import { restaurantData } from "../assets/data/data";
 import Banner from "../components/Banner";
-import OrderAgainContainer from "../components/OrderAgainContainer";
-import DishComponentContainer from "../components/DishComponentContainer";
+import DishesListContainer from "../components/DishesListContainer";
 import FeaturedRestaurantsContainer from "../components/FeaturedRestaurantsContainer";
 import RestaurantCard from "../components/RestaurantCard";
-import Header from "../components/Header";
+import BannerSlider from "../components/BannerSlider";
+import { FlashList } from "@shopify/flash-list";
 
 const HomeScreen = () => {
+
+  const images = [
+    { url: 'https://img.freepik.com/free-vector/flat-design-food-sale-banner_23-2149108165.jpg' },
+    { url: 'https://img.freepik.com/free-vector/pizza-restaurant-landing-page-template_23-2148605544.jpg?t=st=1723054196~exp=1723057796~hmac=7e23cb2465ff3631c1231962fa40302aef19045b572496896d59d4d6e7bb7481&w=996' },
+    { url: 'https://img.freepik.com/free-vector/delicious-fast-food-banner-with-discount_23-2149113472.jpg?t=st=1723054092~exp=1723057692~hmac=ee46ec44586072c149da367aa9d93f6e74e3533a939028fa751fbff0d431078a&w=1060' },
+    { url: 'https://img.freepik.com/free-vector/flat-design-food-sale-banner-with-special-offer_23-2149113276.jpg?t=st=1723054047~exp=1723057647~hmac=2c4c2cb0d56fcd1be89438410ad0a9f114878825e1ba5affe2cb4843e88739cc&w=1060' },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Restaurants */}
 
-      <FlatList
+      <FlashList
         data={restaurantData}
         renderItem={({ item }) => (
           <RestaurantCard
@@ -38,36 +42,17 @@ const HomeScreen = () => {
             cuisines={item.cuisines}
           />
         )}
+        estimatedItemSize={100}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <>
-            {/* header */}
-            <Header />
-            {/* TODO: make it sticky */}
-            {/* search bar */}
-            <SearchBar />
-            {/* categories */}
-            <View style={styles.categories}>
-              <FlatList
-                data={categories}
-                renderItem={({ item }) => <Category title={item.title} />}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-
-            {/* banners */}
-            <Banner image={require("../assets/images/banner_1.jpg")} />
-            <Banner image={require("../assets/images/banner_2.jpg")} />
-            {/* order again */}
-            <OrderAgainContainer />
-            {/* dishes */}
-            <DishComponentContainer />
-            {/* Featured restaurants */}
+            <Banner
+              image={{ uri: "https://northeastlive.s3.amazonaws.com/media/uploads/2023/09/zomata.png" }} />
+            <DishesListContainer />
+            <BannerSlider images={images} />
             <FeaturedRestaurantsContainer />
             <Text style={styles.restaurantCardHeading}>
-              {restaurantData.length * 30} restaurants around you
+              Restaurants around you
             </Text>
           </>
         }

@@ -25,17 +25,7 @@ const FeaturedRestaurant = (props) => {
   return (
     <Pressable
       style={styles.container}
-      onPress={() =>
-        navigation.navigate("Restaurant", {
-          restaurant,
-          cuisines,
-          duration,
-          distance,
-          rating,
-        })
-      }
     >
-      {/* like */}
       <View style={styles.likeContainer}>
         <Feather name="heart" size={16} color="#FC7D86" />
       </View>
@@ -46,7 +36,6 @@ const FeaturedRestaurant = (props) => {
         style={styles.image}
       />
 
-      {/* veg */}
       {isVeg && (
         <View style={styles.vegContainer}>
           <MaterialCommunityIcons name="leaf" size={13} color="green" />
@@ -56,7 +45,6 @@ const FeaturedRestaurant = (props) => {
 
       <View style={styles.restaurantInfo}>
         <View style={styles.restaurantDetails}>
-          {/* name */}
           <Text
             style={styles.restaurantName}
             numberOfLines={2}
@@ -65,17 +53,12 @@ const FeaturedRestaurant = (props) => {
             {restaurant}
           </Text>
           <View style={styles.ratingContainer}>
-            {/* rating */}
             <Text style={styles.rating}>{rating}</Text>
             <FontAwesome name="star" size={10} color="#fff" />
           </View>
         </View>
         <View style={styles.orderInfo}>
-          <Image
-            source={require("../assets/images/time.png")}
-            style={styles.timerImage}
-          />
-          {/* delivery stats */}
+
           <Text style={styles.time}>{duration} min</Text>
           <Entypo name="dot-single" size={10} color="#282828" />
           <Text style={styles.time}>{distance} km</Text>
@@ -93,12 +76,10 @@ const FeaturedRestaurant = (props) => {
           >
             <FontAwesome name="rupee" size={10} color="#fff" />
           </View>
-          {/* bill */}
           <Text style={styles.bill}>{bill} for one</Text>
         </View>
       </View>
 
-      {/* discount */}
       {discount && (
         <View style={styles.discountContainer}>
           <MaterialCommunityIcons
@@ -119,7 +100,7 @@ const styles = StyleSheet.create({
   container: {
     width: 150,
     backgroundColor: "#fff",
-    height: 275,
+    height: 200,
     borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
@@ -229,7 +210,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgba(240,255,255,0.8)",
     width: "100%",
-    top: 114,
   },
   vegText: {
     color: "#259547",

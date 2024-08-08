@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const DishComponent = (props) => {
+const DishesList = (props) => {
   const { image, dishName } = props;
   return (
     <View style={styles.container}>
@@ -16,12 +16,12 @@ const DishComponent = (props) => {
   );
 };
 
-export default DishComponent;
+export default DishesList;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginVertical: 16,
+    margin: 10,
   },
   image: {
     width: 72,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "500",
     color: "#303030",
-    marginTop: 12,
+    marginTop: 10,
     textTransform: "capitalize",
   },
 });
